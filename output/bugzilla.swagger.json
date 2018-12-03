@@ -1,0 +1,14 @@
+{
+  "basePath": "/rest/",
+  "host": "bugzilla.mozilla.org",
+  "info": {
+    "description": "The BugZilla Mozilla API",
+    "title": "BugZilla Mozilla API",
+    "version": "latest"
+  },
+  "paths": {},
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0"
+}
