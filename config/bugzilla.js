@@ -1,7 +1,7 @@
 var config = module.exports = {
-  //depth: 10,
-  url: 'https://bugzilla.readthedocs.io/en/latest/api',
-  urlRegex: /^https:\/\/bugzilla.readthedocs.io\/en\/latest\/api/,
+  depth: 3,
+  url: 'https://bugzilla.readthedocs.io/en/latest/api/core/v1',
+  urlRegex: /^https:\/\/bugzilla.readthedocs.io\/en\/latest\/api\/core\/v1/,
   protocols: ['https'],
   host: 'bugzilla.mozilla.org',
   basePath: '/rest/',
@@ -9,7 +9,7 @@ var config = module.exports = {
   version: 'latest',
   description: 'The BugZilla Mozilla API',
 
-  //operations: {selector: '.content'},
+  operations: {selector: '.content'},
   operations: {selector: '.section'},
   // operations: {selector: '.reference internal'},
 

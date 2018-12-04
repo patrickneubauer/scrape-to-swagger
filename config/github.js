@@ -7,6 +7,7 @@ var config = module.exports = {
   title: 'GitHub API',
   version: 'v3',
   description: 'The GitHub API',
+
   operations: {selector: '.content'},
   operation: {selector: 'h2', split: true},
   path: {selector: 'pre:not(.highlight):not(.command-line) > code', regex: /\w+ (\/\S*)/},

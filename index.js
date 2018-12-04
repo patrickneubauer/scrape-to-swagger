@@ -58,6 +58,10 @@ function scrapeInfo(url, callback) {
 var scrapedPages = [];
 
 function scrapePage(url, depth, callback) {
+  // The logic in belows if-statement should be generalized instead of containing a hard-coded String
+  if (!host.includes('bugzilla.readthedocs.io/en/latest/api/core/v1/')) {
+      host = host.replace('bugzilla.readthedocs.io','bugzilla.readthedocs.io/en/latest/api/core/v1/');
+  }
   url = urlParser.resolve(host, url);
   if (url.indexOf('mailto:') === 0) return callback();
   if (scrapedPages.indexOf(url) !== -1) return callback();
