@@ -1,3 +1,5 @@
+const VALID_TYPES = ['int','double','string','email','date','datetime','boolean','base64','array','object']; // see: https://bugzilla.readthedocs.io/en/latest/api/core/v1/general.html#common-data-types
+
 var config = module.exports = {
   depth: 3,
   url: 'https://bugzilla.readthedocs.io/en/latest/api/core/v1',
@@ -8,6 +10,7 @@ var config = module.exports = {
   title: 'BugZilla Mozilla API',
   version: 'latest',
   description: 'The BugZilla Mozilla API',
+  securityDefinitions: {}, // implement fix or set manually (see: https://bugzilla.readthedocs.io/en/latest/api/core/v1/general.html#authentication)
 
   operations: {selector: '.content'},
   operations: {selector: '.section'},
@@ -31,7 +34,7 @@ var config = module.exports = {
   parameterName: {selector: 'td:first-of-type', regex: /(\S+)/},
 
   // parameterType: {selector: 'td:nth-of-type(2)', regex: /(array|string|integer|boolean)/},
-  parameterType: {selector: 'td:nth-of-type(2)', regex: /(array|string|integer|boolean)/},
+  parameterType: {selector: 'td:nth-of-type(2)', regex: /(string|integer|boolean)/}, // 'array' type will result in 'string' which should be fine (however, if a request wants to pass multiple values, they need to be manually separated by ',')
 
   // parameterDescription: {selector: 'td:nth-of-type(3)'},
   parameterDescription: {selector: 'td:nth-of-type(3)'},

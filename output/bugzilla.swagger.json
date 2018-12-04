@@ -7,17 +7,14 @@
     "version": "latest"
   },
   "paths": {
-    "/rest/bug": {
+    "/bug": {
       "get": {
         "parameters": [
           {
             "description": "The unique aliases of this bug. An empty array will\nbe returned if this bug has no aliases.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "alias",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The login name of a user that a bug is assigned to.",
@@ -178,19 +175,19 @@
             "schema": {
               "properties": {
                 "alias": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "assigned_to": {
                   "type": "string"
                 },
                 "cc": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "comment_is_private": {
                   "type": "boolean"
                 },
                 "comment_tags": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "component": {
                   "type": "string"
@@ -199,10 +196,10 @@
                   "type": "string"
                 },
                 "flags": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "groups": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "id": {
                   "type": "string"
@@ -211,7 +208,7 @@
                   "type": "boolean"
                 },
                 "keywords": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "name": {
                   "type": "string"
@@ -266,23 +263,21 @@
         }
       }
     },
-    "/rest/bug_user_last_visit/(id)": {
+    "/bug_user_last_visit/{id}": {
       "get": {
         "parameters": [
           {
             "description": "An integer bug id.",
-            "in": "query",
+            "in": "path",
             "name": "id",
+            "required": true,
             "type": "string"
           },
           {
             "description": "One or more optional bug ids to get.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "ids",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The timestamp the user last visited the bug.",
@@ -304,17 +299,21 @@
             "name": "body",
             "schema": {
               "properties": {
-                "id": {
-                  "type": "string"
-                },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "last_visit_ts": {
                   "type": "string"
                 }
               }
             }
+          },
+          {
+            "description": "An integer bug id.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -324,7 +323,7 @@
         }
       }
     },
-    "/rest/bug/(bug_id)/attachment": {
+    "/bug/{bug_id}/attachment": {
       "get": {
         "parameters": [
           {
@@ -335,8 +334,9 @@
           },
           {
             "description": "Integer bug ID.",
-            "in": "query",
+            "in": "path",
             "name": "bug_id",
+            "required": true,
             "type": "string"
           },
           {
@@ -378,11 +378,8 @@
           {
             "description": "Array of objects, each containing the information\nabout the flag currently set for each attachment.\nEach flag object contains items described in the\nFlag object below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "flags",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The numeric ID of the attachment.",
@@ -489,10 +486,10 @@
                   "type": "string"
                 },
                 "flags": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_markdown": {
                   "type": "boolean"
@@ -520,6 +517,12 @@
                 }
               }
             }
+          },
+          {
+            "in": "path",
+            "name": "bug_id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -529,7 +532,7 @@
         }
       }
     },
-    "/rest/bug/(id_or_alias)": {
+    "/bug/{id_or_alias}": {
       "get": {
         "parameters": [
           {
@@ -541,11 +544,8 @@
           {
             "description": "The unique aliases of this bug. An empty array\nwill be returned if this bug has no aliases.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "alias",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The login name of the user to whom the bug is\nassigned.",
@@ -562,29 +562,20 @@
           {
             "description": "The IDs of bugs that are \"blocked\" by this bug.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "blocks",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The login names of users on the CC list of this\nbug.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "cc",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "Array of objects containing detailed user\ninformation for each of the cc list members.\nTo see the keys included in the user detail\nobject, see below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "cc_detail",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The name of the current classification the bug\nis in.",
@@ -631,11 +622,8 @@
           {
             "description": "The IDs of bugs that this bug \"depends on\".",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "depends_on",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The bug ID of the bug that this bug is a\nduplicate of. If this bug isn't a duplicate of\nany bug, this will be null.",
@@ -646,11 +634,8 @@
           {
             "description": "Each array item is a bug ID that is a duplicate of this bug.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "duplicates",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The number of hours that it was estimated that\nthis bug would take. If you are not in the\ntime-tracking group, this field will not be\nincluded in the return value.",
@@ -661,20 +646,14 @@
           {
             "description": "An array of objects containing the information\nabout flags currently set for the bug. Each flag\nobjects contains the following items",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "flags",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The names of all the groups that this bug is in.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "groups",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The unique numeric ID of this bug.",
@@ -684,8 +663,9 @@
           },
           {
             "description": "An integer bug ID or a bug alias string.",
-            "in": "query",
+            "in": "path",
             "name": "id_or_alias",
+            "required": true,
             "type": "string"
           },
           {
@@ -715,11 +695,8 @@
           {
             "description": "Each keyword that is on this bug.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "keywords",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "When the bug was last changed.",
@@ -802,11 +779,8 @@
           {
             "description": "The URLs in the See Also field on the bug.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "see_also",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The login name of the user who created or last\nmodified the flag.",
@@ -835,11 +809,8 @@
           {
             "description": "Each array item is a tag name. Note that tags are\npersonal to the currently logged in user and are not the same as\ncomment tags.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "tags",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The milestone that this bug is supposed to be\nfixed by, or for closed bugs, the milestone that\nit was fixed for.",
@@ -913,7 +884,7 @@
                   "type": "string"
                 },
                 "comment_tags": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "component": {
                   "type": "string"
@@ -931,7 +902,7 @@
                   "type": "string"
                 },
                 "flags": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "groups": {
                   "type": "string"
@@ -939,11 +910,8 @@
                 "id": {
                   "type": "string"
                 },
-                "id_or_alias": {
-                  "type": "string"
-                },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_cc_accessible": {
                   "type": "boolean"
@@ -1025,6 +993,13 @@
                 }
               }
             }
+          },
+          {
+            "description": "An integer bug ID or alias.",
+            "in": "path",
+            "name": "id_or_alias",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1034,7 +1009,7 @@
         }
       }
     },
-    "/rest/bug/(id_or_alias)/comment": {
+    "/bug/{id_or_alias}/comment": {
       "get": {
         "parameters": [
           {
@@ -1081,8 +1056,9 @@
           },
           {
             "description": "A single integer bug ID or alias.",
-            "in": "query",
+            "in": "path",
             "name": "id_or_alias",
+            "required": true,
             "type": "string"
           },
           {
@@ -1106,11 +1082,8 @@
           {
             "description": "An array of comment tags currently set for the comment.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "tags",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The actual text of the comment.",
@@ -1132,7 +1105,7 @@
         }
       }
     },
-    "/rest/bug/(id)/comment": {
+    "/bug/{id}/comment": {
       "post": {
         "parameters": [
           {
@@ -1144,9 +1117,6 @@
                   "type": "string"
                 },
                 "comment_tags": {
-                  "type": "array"
-                },
-                "id": {
                   "type": "string"
                 },
                 "is_markdown": {
@@ -1160,6 +1130,13 @@
                 }
               }
             }
+          },
+          {
+            "description": "The ID or alias of the bug to append a comment to.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1169,7 +1146,7 @@
         }
       }
     },
-    "/rest/bug/(id)/history": {
+    "/bug/{id}/history": {
       "get": {
         "parameters": [
           {
@@ -1181,11 +1158,8 @@
           {
             "description": "The unique aliases of this bug. An empty array will be returned\nif this bug has no aliases.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "alias",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The ID of the attachment that was changed.\nThis only appears if the change was to an attachment,\notherwise attachment_id will not be present in this\nobject.",
@@ -1196,11 +1170,8 @@
           {
             "description": "An array of Change objects which contain all the changes that\nhappened to the bug at this time (as specified by when).",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "changes",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The name of the bug field that has changed.",
@@ -1211,16 +1182,14 @@
           {
             "description": "An array of History objects.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "history",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "An integer bug ID or alias.",
-            "in": "query",
+            "in": "path",
             "name": "id",
+            "required": true,
             "type": "string"
           },
           {
@@ -1255,17 +1224,21 @@
         }
       }
     },
-    "/rest/bug/attachment/(attachment_id)": {
+    "/bug/attachment/{attachment_id}": {
       "put": {
         "parameters": [
+          {
+            "description": "Integer attachment ID.",
+            "in": "path",
+            "name": "attachment_id",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
             "schema": {
               "properties": {
-                "attachment_id": {
-                  "type": "string"
-                },
                 "changes": {
                   "type": "string"
                 },
@@ -1279,13 +1252,13 @@
                   "type": "string"
                 },
                 "flags": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "id": {
                   "type": "string"
                 },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_markdown": {
                   "type": "boolean"
@@ -1331,7 +1304,7 @@
         }
       }
     },
-    "/rest/bug/comment/(comment_id)/tags": {
+    "/bug/comment/{comment_id}/tags": {
       "put": {
         "parameters": [
           {
@@ -1340,16 +1313,20 @@
             "schema": {
               "properties": {
                 "add": {
-                  "type": "array"
-                },
-                "comment_id": {
                   "type": "string"
                 },
                 "remove": {
-                  "type": "array"
+                  "type": "string"
                 }
               }
             }
+          },
+          {
+            "description": "The ID of the comment to update.",
+            "in": "path",
+            "name": "comment_id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1359,7 +1336,7 @@
         }
       }
     },
-    "/rest/bug/comment/tags/(query)": {
+    "/bug/comment/tags/{query}": {
       "get": {
         "parameters": [
           {
@@ -1370,8 +1347,9 @@
           },
           {
             "description": "Only tags containing this substring will be returned.",
-            "in": "query",
+            "in": "path",
             "name": "query",
+            "required": true,
             "type": "string"
           }
         ],
@@ -1382,7 +1360,7 @@
         }
       }
     },
-    "/rest/classification/(id_or_name)": {
+    "/classification/{id_or_name}": {
       "get": {
         "parameters": [
           {
@@ -1399,8 +1377,9 @@
           },
           {
             "description": "An Integer classification ID or name.",
-            "in": "query",
+            "in": "path",
             "name": "id_or_name",
+            "required": true,
             "type": "string"
           },
           {
@@ -1412,11 +1391,8 @@
           {
             "description": "Products the user is authorized to access within the\nclassification. The product object keys are described below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "products",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The value which determines the order the classification is\nsorted.",
@@ -1432,7 +1408,7 @@
         }
       }
     },
-    "/rest/component": {
+    "/component": {
       "post": {
         "parameters": [
           {
@@ -1444,7 +1420,7 @@
                   "type": "string"
                 },
                 "default_cc": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "default_qa_contact": {
                   "type": "string"
@@ -1475,7 +1451,7 @@
         }
       }
     },
-    "/rest/component/<component_id>": {
+    "/component/{component_id}": {
       "delete": {
         "parameters": [
           {
@@ -1493,11 +1469,14 @@
           {
             "description": "Objects containing the names of the components that you wish\nto delete. The object keys are \"product\" and \"component\",\nrepresenting the name of the product and the component you\nwish to delete.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "names",
-            "type": "array"
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "component_id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1520,7 +1499,7 @@
                   "type": "string"
                 },
                 "default_cc": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "default_qa_contact": {
                   "type": "string"
@@ -1532,7 +1511,7 @@
                   "type": "string"
                 },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_open": {
                   "type": "boolean"
@@ -1541,10 +1520,16 @@
                   "type": "string"
                 },
                 "names": {
-                  "type": "array"
+                  "type": "string"
                 }
               }
             }
+          },
+          {
+            "in": "path",
+            "name": "component_id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1554,7 +1539,7 @@
         }
       }
     },
-    "/rest/extensions": {
+    "/extensions": {
       "get": {
         "parameters": [
           {
@@ -1571,17 +1556,14 @@
         }
       }
     },
-    "/rest/field/bug": {
+    "/field/bug": {
       "get": {
         "parameters": [
           {
             "description": "For bug_status values, this is an array of\nobjects that determine which statuses you can\ntransition to from this status. (This item is only\nincluded for the bug_status field.)\nEach object contains the following items:\n\nname: (string) The name of the new status\ncomment_required: (boolean) true if a comment\nis required when you change a bug into this status\nusing this transition.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "can_change_to",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The description of the value. This item is only\nincluded for the keywords field.",
@@ -1664,11 +1646,8 @@
           {
             "description": "Objects representing the legal values for\nselect-type (drop-down and multiple-selection)\nfields. This is  also populated for the\ncomponent, version, target_milestone,\nand keywords fields, but not for the product\nfield (you must use get_accessible_products for\nthat). For fields that aren't select-type fields,\nthis will simply be an empty array. Each object\ncontains the items described in the Value object\nbelow.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "values",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The name of a field that controls the visibility of\nthis field in the user interface. This field only\nappears in the user interface when the named field is\nequal to one of the values is visibility_values.\nCan be null.",
@@ -1679,11 +1658,8 @@
           {
             "description": "This field is only shown when visibility_field\nmatches one of these string values. When\nvisibility_field is null, then this is an empty\narray.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "visibility_values",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1693,13 +1669,14 @@
         }
       }
     },
-    "/rest/field/bug/(field)/values": {
+    "/field/bug/{field}/values": {
       "get": {
         "parameters": [
           {
             "description": "The name of the field you want information about.\nThis should be the same as the name you would use in\nCreate Bug, below.",
-            "in": "query",
+            "in": "path",
             "name": "field",
+            "required": true,
             "type": "string"
           },
           {
@@ -1711,11 +1688,8 @@
           {
             "description": "The legal values for this field. The values will be sorted\nas they normally would be in Bugzilla.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "values",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1725,7 +1699,7 @@
         }
       }
     },
-    "/rest/flag_type": {
+    "/flag_type": {
       "post": {
         "parameters": [
           {
@@ -1734,13 +1708,13 @@
             "schema": {
               "properties": {
                 "cc_list": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "description": {
                   "type": "string"
                 },
                 "exclusions": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "flag_id": {
                   "type": "string"
@@ -1749,7 +1723,7 @@
                   "type": "string"
                 },
                 "inclusions": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_active": {
                   "type": "boolean"
@@ -1786,7 +1760,7 @@
         }
       }
     },
-    "/rest/flag_type/(id_or_name)": {
+    "/flag_type/{id_or_name}": {
       "put": {
         "parameters": [
           {
@@ -1795,7 +1769,7 @@
             "schema": {
               "properties": {
                 "cc_list": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "changes": {
                   "type": "string"
@@ -1804,7 +1778,7 @@
                   "type": "string"
                 },
                 "exclusions": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "grant_group": {
                   "type": "string"
@@ -1812,14 +1786,11 @@
                 "id": {
                   "type": "string"
                 },
-                "id_or_name": {
+                "ids": {
                   "type": "string"
                 },
-                "ids": {
-                  "type": "array"
-                },
                 "inclusions": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_active": {
                   "type": "boolean"
@@ -1837,7 +1808,7 @@
                   "type": "string"
                 },
                 "names": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "request_group": {
                   "type": "string"
@@ -1847,6 +1818,13 @@
                 }
               }
             }
+          },
+          {
+            "description": "Integer flag type ID or name.",
+            "in": "path",
+            "name": "id_or_name",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1856,7 +1834,7 @@
         }
       }
     },
-    "/rest/flag_type/(product)": {
+    "/flag_type/{product}": {
       "get": {
         "parameters": [
           {
@@ -1897,8 +1875,9 @@
           },
           {
             "description": "The name of a valid product.",
-            "in": "query",
+            "in": "path",
             "name": "product",
+            "required": true,
             "type": "string"
           },
           {
@@ -1910,11 +1889,8 @@
           {
             "description": "String values that the user can set on the flag type.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "values",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1924,7 +1900,7 @@
         }
       }
     },
-    "/rest/group": {
+    "/group": {
       "post": {
         "parameters": [
           {
@@ -1961,7 +1937,7 @@
         }
       }
     },
-    "/rest/group/(id_or_name)": {
+    "/group/{id_or_name}": {
       "get": {
         "parameters": [
           {
@@ -2002,18 +1978,16 @@
           },
           {
             "description": "Integer group ID or name.",
-            "in": "query",
+            "in": "path",
             "name": "id_or_name",
+            "required": true,
             "type": "string"
           },
           {
             "description": "Integer IDs of groups.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "ids",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "Whether this group is currently active or not.",
@@ -2042,11 +2016,8 @@
           {
             "description": "Names of groups.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "names",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The actual name of the user.",
@@ -2063,11 +2034,8 @@
           {
             "description": "User objects that are members of this group; only\nreturned if the user sets the membership parameter to\n1. Each user object has the items describe in the User\nobject below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "users",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -2095,11 +2063,8 @@
                 "id": {
                   "type": "string"
                 },
-                "id_or_name": {
-                  "type": "string"
-                },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_active": {
                   "type": "boolean"
@@ -2108,13 +2073,20 @@
                   "type": "string"
                 },
                 "names": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "user_regexp": {
                   "type": "string"
                 }
               }
             }
+          },
+          {
+            "description": "Integer group or name.",
+            "in": "path",
+            "name": "id_or_name",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -2124,17 +2096,14 @@
         }
       }
     },
-    "/rest/last_audit_time": {
+    "/last_audit_time": {
       "get": {
         "parameters": [
           {
             "description": "The class names are defined as Bugzilla::<class_name>\" such as\nBugzilla:Product`` for products.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "class",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The maximum of the at_time from the audit_log.",
@@ -2150,7 +2119,7 @@
         }
       }
     },
-    "/rest/login": {
+    "/login": {
       "get": {
         "parameters": [
           {
@@ -2189,7 +2158,7 @@
         }
       }
     },
-    "/rest/logout": {
+    "/logout": {
       "get": {
         "parameters": [
           {
@@ -2205,7 +2174,7 @@
         }
       }
     },
-    "/rest/parameters": {
+    "/parameters": {
       "get": {
         "parameters": [],
         "responses": {
@@ -2215,7 +2184,7 @@
         }
       }
     },
-    "/rest/product": {
+    "/product": {
       "get": {
         "parameters": [
           {
@@ -2233,11 +2202,8 @@
           {
             "description": "Each component object has the items described in the\nComponent object below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "components",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The login name of the user to whom new bugs\nwill be assigned by default.",
@@ -2296,11 +2262,8 @@
           {
             "description": "Product IDs",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "ids",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "A boolean indicating if the product is active.",
@@ -2329,11 +2292,8 @@
           {
             "description": "Each object describes a milestone, and has the\nfollowing items: name, sort_key and\nis_active.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "milestones",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The name of the product. This is a unique identifier\nfor the product.",
@@ -2344,11 +2304,8 @@
           {
             "description": "Product names",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "names",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The group ID that is allowed to request the flag if\nthe flag is of the type requestable. If the item is\nnot included all users are allowed request this\nflagtype.",
@@ -2370,11 +2327,8 @@
           {
             "description": "Each object describes a version, and has the\nfollowing items: name, sort_key and\nis_active.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "versions",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -2428,17 +2382,14 @@
         }
       }
     },
-    "/rest/product_selectable": {
+    "/product_selectable": {
       "get": {
         "parameters": [
           {
             "description": "List of integer product IDs.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "ids",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -2448,7 +2399,7 @@
         }
       }
     },
-    "/rest/product/(id_or_name)": {
+    "/product/{id_or_name}": {
       "put": {
         "parameters": [
           {
@@ -2471,11 +2422,8 @@
                 "id": {
                   "type": "string"
                 },
-                "id_or_name": {
-                  "type": "string"
-                },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "is_open": {
                   "type": "boolean"
@@ -2484,10 +2432,17 @@
                   "type": "string"
                 },
                 "names": {
-                  "type": "array"
+                  "type": "string"
                 }
               }
             }
+          },
+          {
+            "description": "Integer product ID or name.",
+            "in": "path",
+            "name": "id_or_name",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -2497,7 +2452,7 @@
         }
       }
     },
-    "/rest/time": {
+    "/time": {
       "get": {
         "parameters": [
           {
@@ -2520,7 +2475,7 @@
         }
       }
     },
-    "/rest/timezone": {
+    "/timezone": {
       "get": {
         "parameters": [
           {
@@ -2537,7 +2492,7 @@
         }
       }
     },
-    "/rest/user": {
+    "/user": {
       "post": {
         "parameters": [
           {
@@ -2571,7 +2526,7 @@
         }
       }
     },
-    "/rest/user/(id_or_name)": {
+    "/user/{id_or_name}": {
       "get": {
         "parameters": [
           {
@@ -2601,20 +2556,14 @@
           {
             "description": "Numeric IDs for groups that a user can be in.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "group_ids",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "Names of groups that a user can be in. If\ngroup_ids or groups are specified, they\nlimit the return value to users who are in any\nof the groups specified.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "groups",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The unique integer ID that Bugzilla uses to represent\nthis user. Even if the user's login name changes,\nthis will not change.",
@@ -2624,18 +2573,16 @@
           },
           {
             "description": "An integer user ID or login name of the user.",
-            "in": "query",
+            "in": "path",
             "name": "id_or_name",
+            "required": true,
             "type": "string"
           },
           {
             "description": "Integer user IDs. Logged=out users cannot pass\nthis parameter to this function. If they try,\nthey will get an error. Logged=in users will get\nan error if they specify the ID of a user they\ncannot see.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "ids",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "By default, when using the match parameter,\ndisabled users are excluded from the returned\nresults unless their full username is identical\nto the match string. Setting include_disabled to\ntrue will include disabled users in the returned\nresults even if their username doesn't fully match\nthe input string.",
@@ -2658,11 +2605,8 @@
           {
             "description": "This works just like \"user matching\" in Bugzilla\nitself. Users will be returned whose real name\nor login name contains any one of the specified\nstrings. Users that you cannot see will not be\nincluded in the returned list.\nMost installations have a limit on how many\nmatches are returned for each string; the default\nis 1000 but can be changed by the Bugzilla\nadministrator.\nLogged-out users cannot use this argument, and\nan error will be thrown if they try. (This is to\nmake it harder for spammers to harvest email\naddresses from Bugzilla, and also to enforce the\nuser visibility restrictions that are\nimplemented on some Bugzillas.)",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "match",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The login name of the user.",
@@ -2673,11 +2617,8 @@
           {
             "description": "Login names.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "names",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "The CGI parameters for the saved report.",
@@ -2694,20 +2635,14 @@
           {
             "description": "User's saved reports, each having the following\nSearch object items described below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "saved_reports",
-            "type": "array"
+            "type": "string"
           },
           {
             "description": "User's saved searches, each having the following\nSearch object items described below.",
             "in": "query",
-            "items": {
-              "type": "string"
-            },
             "name": "saved_searches",
-            "type": "array"
+            "type": "string"
           }
         ],
         "responses": {
@@ -2724,7 +2659,7 @@
             "schema": {
               "properties": {
                 "add": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "bless_groups": {
                   "type": "string"
@@ -2747,29 +2682,33 @@
                 "id": {
                   "type": "string"
                 },
-                "id_or_name": {
-                  "type": "string"
-                },
                 "ids": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "login_denied_text": {
                   "type": "string"
                 },
                 "names": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "password": {
                   "type": "string"
                 },
                 "remove": {
-                  "type": "array"
+                  "type": "string"
                 },
                 "set": {
-                  "type": "array"
+                  "type": "string"
                 }
               }
             }
+          },
+          {
+            "description": "Either the ID or the login name of the user to\nupdate.",
+            "in": "path",
+            "name": "id_or_name",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -2779,7 +2718,7 @@
         }
       }
     },
-    "/rest/user/1": {
+    "/user/1": {
       "get": {
         "parameters": [
           {
@@ -2815,7 +2754,7 @@
         }
       }
     },
-    "/rest/valid_login": {
+    "/valid_login": {
       "get": {
         "parameters": [
           {
@@ -2836,7 +2775,7 @@
         }
       }
     },
-    "/rest/version": {
+    "/version": {
       "get": {
         "parameters": [
           {
@@ -2856,7 +2795,7 @@
         }
       }
     },
-    "/rest/whoami": {
+    "/whoami": {
       "get": {
         "parameters": [
           {
@@ -2889,5 +2828,6 @@
   "schemes": [
     "https"
   ],
+  "securityDefinitions": {},
   "swagger": "2.0"
 }

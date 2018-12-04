@@ -3,6 +3,8 @@ var CREATE_METHODS = ['post', 'patch', 'put'];
 const swaggerSpecValidator = require('swagger-spec-validator');
 const _ = require('lodash');
 
+var counter = 0;
+
 var getDefaultParameterLocation = function(method) {
   if (method === 'post' || method === 'patch' || method === 'put') return 'formData';
   return 'query';
@@ -92,6 +94,20 @@ function addPageToSwagger($) {
     var op = $(this);
     var method = extractText(op, config.method);
     var path = extractText(op, config.path);
+
+    // The logic in belows if-statement should be generalized instead of containing a hard-coded String
+    if (path.includes('/rest/')) {
+        path = path.replace('/rest/','/');
+    }
+    path = path.replace("(", "{").replace(")","}"); // replace (..) with {..}
+    path = path.replace("<", "{").replace(">","}"); // replace <..> with {..}
+
+      // path = path.replace(/\(([^)]+)\)/i, ""); // remove everything enclosed with rounded brackets (not a fix!)
+    // path = path.replace("//", "/"); // remove double-slashes (result of previous line)
+    // if (path.endsWith("/")) {
+    //   path = path.substring(0,path.length-1); // replace trailing slash
+    // }
+
     log('  op', method, path);
     if (!method || !path) return;
     method = method.toLowerCase();
