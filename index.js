@@ -47,6 +47,7 @@ function scrapeInfo(url, callback) {
     if (err) return callback(err);
     var $ = cheerio.load(body);
     var body = $('body');
+      //console.log("$1="+$);
 
     var base = ['basePath', 'host']
     var info = ['title', 'description', 'version'];
@@ -72,7 +73,57 @@ function scrapePage(url, depth, callback) {
   log('scrape', url);
   request.get(url, function(err, resp, body) {
     if (err) return callback(err);
-    var $ = cheerio.load(body);
+    let $ = cheerio.load(body);
+
+      wrapDivsAround($);
+      console.log('$='+$);
+
+      // const myTables = [];
+      // $('table').each(function(i, elem0) {
+      //   myTables[i] = $(this);
+      //   const myParagraphs = [];
+      //
+      //   $(this).prevAll('p').find('strong').each(function(j, elem1) {
+      //       if ( elem1.firstChild != 'null' && elem1.firstChild.data  == 'Request' ) {
+      //           console.log("found Request paragraph for " + $(this));
+      //       }
+      //   });
+      //
+      // });
+
+//      var myRequests = $('p strong:contains(Request)').parent().nextUntil('p strong:contains(Response)');
+//       var myTables = $('table');
+//
+//
+//       var counter = 0;
+//       for (var myTable in myTables) {
+//
+//         var myTablePrevAlls = myTable.prevAll('p').find('strong');
+//         for (var myTablePrevAll in myTablePrevAlls) {
+//           if (myTablePrevAll.text() == 'Request') {
+//             console.log("found Request paragraph for " + myTable);
+//           }
+//         }
+//
+//         console.log('myTable['+counter+']='+myTable);
+//         counter += 1;
+//       }
+    // modify page and annotate request and response tables before continuing here
+    //   var myRequestStrings = $('body').html().split("<strong>Request</strong>");
+    //
+    //   for (var myRequestString in myRequestStrings) {
+    //     if ('null' != myRequestString ) {
+    //       var myRequest = cheerio.load(myRequestString);
+    //       myRequest.par
+    //     }
+    //   }
+
+    // var tables = $('table.docutils');
+    // console.log("tables="+tables);
+    //   var test = $('p strong:');
+    //   console.log("test="+test);
+    //console.log("$2="+$);
+
     addPageToSwagger($);
     if (!depth) return callback();
     var links = $('a[href]');
@@ -84,6 +135,44 @@ function scrapePage(url, depth, callback) {
       callback(err);
     })
   })
+}
+
+function wrapDivsAround($) {
+    // for each Request, create a div and put Request and every sibling of Request, until Response, inside the same div
+
+    // look for occurrence of Request
+    $('p strong').each(function(i, elem0) {
+
+        if ( elem0.firstChild != 'null' && elem0.firstChild.data  == 'Request' ) {
+            console.log("found Request paragraph");
+
+            // close previous response-div
+            if ( $(this).parent('response-div') ) {
+              console.log('closing response-div');
+                $(this).before('</div>');
+              return $;
+
+            }
+
+            // open new request-div
+            $(this).before('<div class="request-div">')
+
+            $(this).parent().nextAll('p').find('strong').each(function(j, elem1) {
+                if ( elem1.firstChild != 'null' && elem1.firstChild.data  == 'Response' ) {
+                    console.log("found Response paragraph");
+                    console.log('');
+                    // close current request-div
+                    $(this).before('</div>');
+                    // open new response-div
+                    $(this).after('<div class="response-div">');
+                    // operate on the rest
+                    return wrapDivsAround($);
+                }
+            });
+
+        }
+
+    });
 }
 
 function addPageToSwagger($) {

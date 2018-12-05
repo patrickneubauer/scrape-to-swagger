@@ -25,7 +25,8 @@ var config = module.exports = {
   method: {selector: 'pre:not(.highlight):not(.command-line)', regex: /(\w+) .*/},
 
   // parameters: {selector: 'h3:contains(Parameters) + table'},
-  parameters: {selector: 'table.docutils'},
+  // parameters: {selector: 'table.docutils'},
+    parameters: {selector: 'p strong:contains(Request) + div'},
 
   // parameter: {selector: 'tbody tr'},
   parameter: {selector: 'tbody tr'},
@@ -36,6 +37,19 @@ var config = module.exports = {
   // parameterType: {selector: 'td:nth-of-type(2)', regex: /(array|string|integer|boolean)/},
   parameterType: {selector: 'td:nth-of-type(2)', regex: /(string|integer|boolean)/}, // 'array' type will result in 'string' which should be fine (however, if a request wants to pass multiple values, they need to be manually separated by ',')
 
+  // parameterType: {selector: 'td:nth-of-type(2)', parse: el => {
+  //         let str = el.text();
+  //         if (str.indexOf('Array') !== -1) return 'array';
+  //         if (VALID_TYPES.indexOf(str) === -1) return 'object';
+  //         return str;
+  //     }},
+  // parameterArrayType: {selector: 'td:nth-of-type(2)', parse: el => {
+  //         let type = el.text();
+  //         console.log(type);
+  //         if (VALID_TYPES.indexOf(type) === -1) return 'object';
+  //         return type;
+  //     }},
+
   // parameterDescription: {selector: 'td:nth-of-type(3)'},
   parameterDescription: {selector: 'td:nth-of-type(3)'},
 
@@ -44,7 +58,7 @@ var config = module.exports = {
   // (!) requestBody not available in BugZilla (at least in most cases)
 
   // responses: {selector: 'h3:contains(Response), h4:contains(Response)'},
-  responses: {selector: 'p strong:contains(Response)'}, // beware: css contains selector is officially not available anymore (see: https://stackoverflow.com/questions/45955239/css3-contains-selector-not-work)
+  responses: {selector: 'p strong:contains(Response) + div'}, // beware: css contains selector is officially not available anymore (see: https://stackoverflow.com/questions/45955239/css3-contains-selector-not-work)
 
   // responseStatus: {selector: 'pre.highlight-headers', regex: /Status: (\d+) /, sibling: true},
   //responseStatus: {selector: 'pre.highlight-headers', regex: /Status: (\d+) /, sibling: true},
