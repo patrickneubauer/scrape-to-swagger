@@ -76,7 +76,7 @@ function scrapePage(url, depth, callback) {
     let $ = cheerio.load(body);
 
       wrapDivsAround($);
-      console.log('$='+$);
+      //console.log('$='+$);
 
       // const myTables = [];
       // $('table').each(function(i, elem0) {
@@ -144,26 +144,26 @@ function wrapDivsAround($) {
     $('p strong').each(function(i, elem0) {
 
         if ( elem0.firstChild != 'null' && elem0.firstChild.data  == 'Request' ) {
-            console.log("found Request paragraph");
-
-            // close previous response-div
+           // close previous response-div
             if ( $(this).parent('response-div') ) {
               console.log('closing response-div');
                 $(this).before('</div>');
-              return $;
+                console.log('');
+              //return $;
 
             }
 
             // open new request-div
+            console.log('open new request-div');
             $(this).before('<div class="request-div">')
 
             $(this).parent().nextAll('p').find('strong').each(function(j, elem1) {
                 if ( elem1.firstChild != 'null' && elem1.firstChild.data  == 'Response' ) {
-                    console.log("found Response paragraph");
-                    console.log('');
                     // close current request-div
+                    console.log('close current request-div');
                     $(this).before('</div>');
                     // open new response-div
+                    console.log('open new response-div');
                     $(this).after('<div class="response-div">');
                     // operate on the rest
                     return wrapDivsAround($);
