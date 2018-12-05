@@ -73,9 +73,12 @@ function scrapePage(url, depth, callback) {
   log('scrape', url);
   request.get(url, function(err, resp, body) {
     if (err) return callback(err);
+
+    body = wrapDivsAround2(body);
+
     let $ = cheerio.load(body);
 
-      wrapDivsAround($);
+      //wrapDivsAround($);
       //console.log('$='+$);
 
       // const myTables = [];
@@ -135,6 +138,25 @@ function scrapePage(url, depth, callback) {
       callback(err);
     })
   })
+}
+
+function wrapDivsAround2(body) {
+  // wrap request beginning
+  if ( /* first request on page ? */  true ) {
+      // open new request-div
+      body.replace('<p><strong>Request</strong></p>', '<div class="request-div"><p><strong>Request</strong></p>');
+  } else {
+      // close previous response-div and open new request-div
+      body.replace('</div><p><strong>Request</strong></p>', '<div class="request-div"><p><strong>Request</strong></p>');
+  }
+  // wrap request end and response beginning
+  body.replace('<p><strong>Response</strong></p>','</div><div class="response-div"><p><strong>Response</strong></p>');
+
+  // wrap response end
+    if ( /* is last response on page? */ true ) {
+      body.replace('','');
+    }
+
 }
 
 function wrapDivsAround($) {
